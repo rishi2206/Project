@@ -1,0 +1,166 @@
+.heroContainer {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: radial-gradient(circle at 10% 20%, rgba(31, 80, 225, 0.619) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(242, 241, 245, 0.571) 0%, transparent 40%);
+}
+
+.heroCard {
+  max-width: 1000px;
+  width: 100%;
+  padding: 4rem 2rem;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.logoBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(166, 165, 169, 0.1), rgba(139, 92, 246, 0.1));
+  border: 1px solid var(--border-color);
+  color: var(--color-primary);
+  box-shadow: 0 0 20px 0 rgba(59, 130, 246, 0.1);
+  animation: pulseGlow 3s infinite;
+}
+
+.tagline {
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-secondary);
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+  color: var(--text-primary);
+  max-width: 800px;
+}
+
+.highlight {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.btnAction {
+  flex: 1;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.9rem 1.8rem;
+  border-radius: var(--radius-md);
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.btnLogin {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  color: white;
+  box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.35);
+}
+
+.btnLogin:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(59, 130, 246, 0.45);
+  color: white;
+}
+
+.btnRegister {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.btnRegister:hover {
+  transform: translateY(-2px);
+  border-color: var(--text-muted);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.featureCard {
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background-color: rgba(22, 22, 22, 0.002);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+:global(.dark) .featureCard {
+  background-color: rgba(225, 229, 237, 0.934);
+}
+
+.featureIcon {
+  color: var(--color-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.featureTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.featureDesc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.25rem;
+  }
+  .actions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .featuresGrid {
+    grid-template-columns: 1fr;
+  }
+  .heroCard {
+    padding: 2rem 1rem;
+  }
+}
