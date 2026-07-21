@@ -27,6 +27,8 @@ from app.models.bill import Bill
 
 app = FastAPI(title="Hospital Management System")
 
+print("CORS ORIGINS:", settings.cors_origins)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
