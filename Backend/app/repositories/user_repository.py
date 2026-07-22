@@ -2,8 +2,13 @@ from uuid import UUID
 from sqlalchemy.orm import Session
 from app.models.users import Users
 
+
 def get_by_email(db: Session, email: str) -> Users | None:
     return db.query(Users).filter(Users.email == email).first()
+
+
+def get_by_username(db: Session, username: str) -> Users | None:
+    return db.query(Users).filter(Users.username == username).first()
 
 
 def get_by_id(db: Session, user_id: UUID) -> Users | None:
@@ -20,9 +25,9 @@ def create(db: Session, user: Users) -> Users:
         db.commit()
         db.refresh(user)
         return user
-    except Exception:
+    except Exception as e:
         db.rollback()
-        return
+        raise e
 
 
 def update(db: Session, user: Users) -> Users:
@@ -30,15 +35,15 @@ def update(db: Session, user: Users) -> Users:
         db.commit()
         db.refresh(user)
         return user
-    except Exception:
+    except Exception as e:
         db.rollback()
-        return
+        raise e
 
 
 def delete(db: Session, user: Users) -> None:
     try:
         db.delete(user)
         db.commit()
-    except Exception:
+    except Exception as e:
         db.rollback()
-        return
+        raise e

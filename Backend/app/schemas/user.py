@@ -17,7 +17,7 @@ class UserLogin(BaseModel):
 class UserUpdate(BaseModel):
     username: str | None = None
     email: EmailStr | None = None
-    password: str | None = None
+    password: str |None = None
     role_id: UUID | None = None
     is_active: bool | None = None
 
@@ -33,10 +33,28 @@ class UserResponse(BaseModel):
         from_attributes = True
 
 
+
+# Registration/Login Responses
+
+class AuthUserResponse(BaseModel):
+    id: str
+    username: str
+    email: EmailStr
+    role: str
+
+
+class AuthResponse(BaseModel):
+    access_token: str
+    token_type: str
+    user: AuthUserResponse
+
+
 class CurrentUserResponse(BaseModel):
-    """Returned by GET /auth/me so the frontend knows who is logged in,
+    """
+    Returned by GET /auth/me so the frontend knows who is logged in,
     which role they have, and (if applicable) their linked doctor/patient
-    profile id - all without ever touching localStorage."""
+    profile id - all without ever touching localStorage.
+    """
     id: UUID
     username: str
     email: EmailStr

@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app.models.prescription import Prescription
+from app.models.prescriptions import Prescription
 
 
 def get_all(db: Session):

@@ -47,9 +47,12 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       setAuthToken(null);
       const detail = err.response?.data?.detail;
+
       return {
         success: false,
-        error: typeof detail === 'string' ? detail : 'Invalid email or password.',
+        error: typeof detail === 'string'
+          ? detail
+          : 'Invalid email or password.',
       };
     } finally {
       setLoading(false);
@@ -60,21 +63,37 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
 
-      await api.post('/auth/register', {
+      const registerRes = await api.post('/auth/register', {
         username,
         email,
         password,
         role_id: roleId,
       });
 
-      // Registration succeeds but doesn't return a token, so log in
-      // right after with the same credentials for a smooth flow.
-      return await login(email, password);
+      const { access_token } = registerRes.data;
+
+      // Save JWT token
+      setAuthToken(access_token);
+
+      // Fetch logged-in user details
+      const currentUser = await fetchCurrentUser();
+      setUser(currentUser);
+
+      return {
+        success: true,
+        user: currentUser,
+      };
     } catch (err) {
+      setAuthToken(null);
+
       const detail = err.response?.data?.detail;
+
       return {
         success: false,
-        error: typeof detail === 'string' ? detail : 'Registration failed.',
+        error:
+          typeof detail === 'string'
+            ? detail
+            : 'Registration failed.',
       };
     } finally {
       setLoading(false);
@@ -87,7 +106,16 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token: getAuthToken(), loading, login, register, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token: getAuthToken(),
+        loading,
+        login,
+        register,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -95,8 +123,10 @@ export const AuthProvider = ({ children }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
+
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
+
   return context;
 };

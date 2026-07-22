@@ -2,7 +2,12 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
-from app.schemas.user import UserCreate, UserLogin, UserResponse, CurrentUserResponse
+from app.schemas.user import (
+    UserCreate,
+    UserLogin,
+    AuthResponse,
+    CurrentUserResponse,
+)
 from app.services import auth_service
 from app.dependencies.auth import get_current_user
 from app.models.users import Users
@@ -15,7 +20,7 @@ router = APIRouter(
 
 @router.post(
     "/register",
-    response_model=UserResponse
+    response_model=AuthResponse
 )
 def register(user: UserCreate, db: Session = Depends(get_db)):
     try:
@@ -24,7 +29,10 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.post("/login")
+@router.post(
+    "/login",
+    response_model=AuthResponse
+)
 def login(login_data: UserLogin, db: Session = Depends(get_db)):
     try:
         return auth_service.login_user(db, login_data)
@@ -32,9 +40,7 @@ def login(login_data: UserLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail=str(e))
 
 
-# The frontend calls this right after login (and on page load, while a
-# token is present) to find out who is logged in, what role they have,
-# and which doctor/patient profile (if any) belongs to them.
+
 @router.get("/me", response_model=CurrentUserResponse)
 def get_me(current_user: Users = Depends(get_current_user)):
     return CurrentUserResponse(

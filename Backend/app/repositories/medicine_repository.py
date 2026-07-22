@@ -1,32 +1,32 @@
 from sqlalchemy.orm import Session
 
-from app.models.prescription import Prescription
+from app.models.medicine import Medicine
 
 
 def get_all(db: Session):
-    return db.query(Prescription).all()
+    return db.query(Medicine).all()
 
 
-def get_by_id(db: Session, prescription_id):
-    return db.query(Prescription).filter(
-        Prescription.id == prescription_id
+def get_by_id(db: Session, medicine_id):
+    return db.query(Medicine).filter(
+        Medicine.id == medicine_id
     ).first()
 
 
-def create(db: Session, prescription: Prescription):
-    db.add(prescription)
+def create(db: Session, medicine: Medicine):
+    db.add(medicine)
     db.commit()
-    db.refresh(prescription)
-    return prescription
+    db.refresh(medicine)
+    return medicine
 
 
-def update(db: Session, prescription: Prescription):
+def update(db: Session, medicine: Medicine):
     db.commit()
-    db.refresh(prescription)
-    return prescription
+    db.refresh(medicine)
+    return medicine
 
 
-def delete(db: Session, prescription: Prescription):
-    db.delete(prescription)
+def delete(db: Session, medicine: Medicine):
+    db.delete(medicine)
     db.commit()
-    return {"message": "Prescription deleted successfully"}
+    return {"message": "Medicine deleted successfully"}
