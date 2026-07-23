@@ -15,7 +15,7 @@ def create(db: Session, doctor_data):
         user_id=doctor_data.user_id,
         name=doctor_data.name,
         specialization=doctor_data.specialization,
-        Phone_number=doctor_data.phone_number,
+        phone_number=doctor_data.phone_number,
         email=doctor_data.email,
         department=doctor_data.department,
         years_of_experience=doctor_data.years_of_experience

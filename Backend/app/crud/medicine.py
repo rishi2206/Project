@@ -21,6 +21,7 @@ def create_medicine(db: Session, medicine_data: MedicineCreate):
         expiry_date=medicine_data.expiry_date,
         manufacture=medicine_data.manufacture,
         price=medicine_data.price,
+        unit=medicine_data.unit,
     )
     return medicine_repository.create(db, medicine_obj)
 

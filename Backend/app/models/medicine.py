@@ -30,5 +30,6 @@ class Medicine(Base):
         default=datetime.utcnow,
         onupdate=datetime.utcnow
     )
+    unit = Column(String(20), nullable=False, server_default="units")
     
     prescription_items = relationship("Prescription_items", back_populates="medicine")

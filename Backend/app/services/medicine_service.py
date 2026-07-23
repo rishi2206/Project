@@ -44,6 +44,9 @@ def update_medicine(db: Session, medicine_id, medicine_data: MedicineUpdate):
 
     if medicine_data.price is not None:
         medicine_obj.price = medicine_data.price
+    
+    if medicine_data.unit is not None:
+        medicine_obj.unit = medicine_data.unit
 
     return medicine.update_medicine(db, medicine_obj)
 

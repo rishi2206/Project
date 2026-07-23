@@ -11,7 +11,13 @@ def get_all_prescriptions(db: Session):
     return prescription_repository.get_all(db)
 
 
-def create_prescription(db: Session, prescription: Prescription):
+def create_prescription(db: Session, prescription_data):
+    prescription = Prescription(
+        patient_id=prescription_data.patient_id,
+        doctor_id=prescription_data.doctor_id,
+        appointment_id=prescription_data.appointment_id,
+        instructions=prescription_data.instructions,
+    )
     return prescription_repository.create(db, prescription)
 
 

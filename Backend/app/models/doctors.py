@@ -22,7 +22,7 @@ class Doctor(Base):
     )
     name = Column(String(100), nullable=False)
     specialization = Column(String(100), nullable=False)
-    Phone_number = Column(String(15),unique=True, nullable=False)
+    phone_number = Column(String(15),unique=True, nullable=False)
     email = Column(String(100), unique=True, index=True, nullable=False)
     department = Column(String(100), nullable=False)
     years_of_experience=Column(Integer, nullable=False)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import api from '../api/axios';
-import { UserPlus, Calendar, CreditCard, Clipboard, Search, AlertCircle, Plus } from 'lucide-react';
+import { UserPlus, Calendar, CreditCard, Clipboard, Search, AlertCircle, Plus, Trash2 } from 'lucide-react';
 import styles from './ReceptionistDashboard.module.css';
 
 // Ensures a <input type="time"> value ("HH:MM") is sent to the backend
@@ -104,6 +104,18 @@ const ReceptionistDashboard = () => {
       setError(err.response?.data?.detail || 'Failed to book appointment.');
     }
   };
+  const handleDeleteAppointment = async (appointmentId) => {
+    if (!window.confirm('Delete this appointment? This cannot be undone.')) return;
+    setError('');
+    setNotice('');
+    try {
+      await api.delete(`/appointments/${appointmentId}`);
+      setAppointments((prev) => prev.filter((a) => a.id !== appointmentId));
+      setNotice('Appointment deleted.');
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Failed to delete appointment.');
+    }
+  };
 
   const handleCreateBill = async (e) => {
     e.preventDefault();
@@ -130,6 +142,21 @@ const ReceptionistDashboard = () => {
       setError(err.response?.data?.detail || 'Failed to create bill.');
     }
   };
+
+  const handleDeleteBill = async (billId) => {
+    if (!window.confirm('Delete this bill? This cannot be undone.')) return;
+    setError('');
+    setNotice('');
+    try {
+      await api.delete(`/bills/${billId}`);
+      setBills((prev) => prev.filter((b) => b.id !== billId));
+      setNotice('Bill deleted.');
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Failed to delete bill.');
+    }
+  };
+
+
 
   const filteredMedicines = medicines.filter(
     (med) =>
@@ -383,25 +410,31 @@ const ReceptionistDashboard = () => {
                   <div className={styles.tableWrapper}>
                     {appointments.length > 0 ? (
                       <table className={styles.table}>
-                        <thead>
-                          <tr>
-                            <th>Patient</th>
-                            <th>Doctor</th>
-                            <th>Date / Time</th>
+                       <thead>
+                        <tr>
+                          <th>Patient</th>
+                          <th>Doctor</th>
+                          <th>Date / Time</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {appointments.map((appt) => (
+                          <tr key={appt.id}>
+                            <td style={{ fontWeight: '700' }}>{patientNameById(appt.patient_id)}</td>
+                            <td>{doctorNameById(appt.doctor_id)}</td>
+                            <td>
+                              <div style={{ fontSize: '0.85rem', fontWeight: 600 }}>{appt.appointment_date}</div>
+                              <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{appt.appointment_time}</div>
+                            </td>
+                            <td>
+                              <button className={styles.actionBtn} onClick={() => handleDeleteAppointment(appt.id)}>
+                                <Trash2 size={14} /> Cancel
+                              </button>
+                            </td>
                           </tr>
-                        </thead>
-                        <tbody>
-                          {appointments.map((appt) => (
-                            <tr key={appt.id}>
-                              <td style={{ fontWeight: '700' }}>{patientNameById(appt.patient_id)}</td>
-                              <td>{doctorNameById(appt.doctor_id)}</td>
-                              <td>
-                                <div style={{ fontSize: '0.85rem', fontWeight: 600 }}>{appt.appointment_date}</div>
-                                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{appt.appointment_time}</div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
+                        ))}
+                      </tbody> 
                       </table>
                     ) : (
                       <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
@@ -500,6 +533,7 @@ const ReceptionistDashboard = () => {
                             <th>Patient</th>
                             <th>Total</th>
                             <th>Status</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -515,6 +549,11 @@ const ReceptionistDashboard = () => {
                                 >
                                   {bill.payment_status}
                                 </span>
+                              </td>
+                              <td>
+                                <button className={styles.actionBtn} onClick={() => handleDeleteBill(bill.id)}>
+                                  <Trash2 size={14} /> Delete
+                                </button>
                               </td>
                             </tr>
                           ))}

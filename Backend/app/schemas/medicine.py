@@ -3,7 +3,6 @@ from uuid import UUID
 from decimal import Decimal
 from datetime import date, datetime
 
-
 class MedicineCreate(BaseModel):
     medicine_name: str
     description: str | None = None
@@ -11,7 +10,7 @@ class MedicineCreate(BaseModel):
     expiry_date: date
     manufacture: str
     price: Decimal
-
+    unit: str
 
 class MedicineUpdate(BaseModel):
     medicine_name: str | None = None
@@ -20,7 +19,7 @@ class MedicineUpdate(BaseModel):
     expiry_date: date | None = None
     manufacture: str | None = None
     price: Decimal | None = None
-
+    unit: str | None = None
 
 class MedicineResponse(BaseModel):
     id: UUID
@@ -30,6 +29,7 @@ class MedicineResponse(BaseModel):
     expiry_date: date
     manufacture: str
     price: Decimal
+    unit: str
     created_at: datetime
     updated_at: datetime
 

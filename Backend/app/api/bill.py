@@ -27,7 +27,7 @@ router = APIRouter(
 def create_bill(
     bill: BillCreate,
     db: Session = Depends(get_db),
-    current_user=Depends(require_role("Admin"))
+    current_user=Depends(require_role("Admin","Receptionist"))
 ):
     return bill_service.create_bill(db, bill)
 
@@ -96,7 +96,7 @@ def update_bill(
 def delete_bill(
     bill_id: UUID,
     db: Session = Depends(get_db),
-    current_user=Depends(require_role("Admin"))
+    current_user=Depends(require_role("Admin","Receptionist"))
 ):
     return bill_service.delete_bill(
         db,

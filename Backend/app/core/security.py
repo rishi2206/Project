@@ -7,14 +7,7 @@ from app.core.config import settings
 
 
 def hash_password(password: str) -> str:
-    # Talking to bcrypt directly (instead of through passlib's
-    # CryptContext) avoids a known incompatibility between
-    # passlib==1.7.4 and bcrypt>=4.1: passlib tries to read
-    # bcrypt.__about__.__version__ to detect the installed bcrypt
-    # version, which newer bcrypt releases removed. That misdetection
-    # makes passlib incorrectly reject passwords with a
-    # "password cannot be longer than 72 bytes" error even when the
-    # password is short.
+    
     password_bytes = password.encode("utf-8")
     hashed = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
     return hashed.decode("utf-8")
